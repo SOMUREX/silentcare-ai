@@ -396,3 +396,4 @@ function chartOptions(xLabel, yLabel, showLegend) {
   await loadSeeds();
   await loadDashboard();
 })();
+

@@ -16,7 +16,8 @@ from flask_cors import CORS
 sys.path.insert(0, os.path.dirname(__file__))
 from data_generator import (
     FEATURES, FEATURE_LABELS, DEPARTMENTS,
-    generate_timeline, engineer_features_single
+    generate_timeline, engineer_features_single,
+    load_or_build_dataset
 )
 
 app = Flask(__name__)
