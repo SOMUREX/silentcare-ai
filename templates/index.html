@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SilentCare AI — Hospital Operational Intelligence</title>
+  <link rel="stylesheet" href="/static/css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+<!-- ══════════════════════ HEADER ══════════════════════ -->
+<header class="header">
+  <div class="header-brand">
+    <span class="pulse-dot"></span>
+    <div>
+      <h1>SilentCare AI</h1>
+      <p>Intelligent Hospital Operational Degradation Detection</p>
+    </div>
+  </div>
+  <div class="header-controls">
+    <label for="seedSelect">Timeline (Seed):</label>
+    <select id="seedSelect"></select>
+    <button id="refreshBtn" onclick="loadDashboard()">↻ Refresh</button>
+  </div>
+</header>
+
+<!-- ══════════════════════ LOADER ══════════════════════ -->
+<div id="loader" class="loader-overlay">
+  <div class="loader-box">
+    <div class="spinner"></div>
+    <p>Running ML Analysis…</p>
+  </div>
+</div>
+
+<!-- ══════════════════════ MAIN ══════════════════════ -->
+<main class="main" id="mainContent" style="display:none;">
+
+  <!-- KPI Row -->
+  <section class="kpi-row">
+    <div class="kpi-card" id="kpiHealth">
+      <div class="kpi-label">Operational Health</div>
+      <div class="kpi-value" id="healthValue">—</div>
+      <div class="kpi-sub" id="healthState">—</div>
+    </div>
+    <div class="kpi-card" id="kpiAnomalies">
+      <div class="kpi-label">Anomalies Detected</div>
+      <div class="kpi-value" id="anomalyCount">—</div>
+      <div class="kpi-sub">out of 180 days</div>
+    </div>
+    <div class="kpi-card" id="kpiRisk24">
+      <div class="kpi-label">Risk (Next 24 h)</div>
+      <div class="kpi-value" id="risk24Value">—</div>
+      <div class="kpi-sub">degradation probability</div>
+    </div>
+    <div class="kpi-card" id="kpiRisk7d">
+      <div class="kpi-label">Risk (7 Days)</div>
+      <div class="kpi-value" id="risk7dValue">—</div>
+      <div class="kpi-sub">degradation probability</div>
+    </div>
+  </section>
+
+  <!-- Charts Row 1 -->
+  <section class="charts-row">
+    <div class="chart-card wide">
+      <div class="chart-header">
+        <h2>① Operational Health Trend</h2>
+        <span class="chart-hint">Random Forest Regressor · 180 simulated days</span>
+      </div>
+      <canvas id="healthChart"></canvas>
+    </div>
+    <div class="chart-card">
+      <div class="chart-header">
+        <h2>② Indicator Trends</h2>
+        <span class="chart-hint">Key operational signals</span>
+      </div>
+      <canvas id="indicatorChart"></canvas>
+    </div>
+  </section>
+
+  <!-- Charts Row 2 -->
+  <section class="charts-row">
+    <div class="chart-card">
+      <div class="chart-header">
+        <h2>③ Future Degradation Risk</h2>
+        <span class="chart-hint">Random Forest Classifier · 4 horizons</span>
+      </div>
+      <canvas id="riskChart"></canvas>
+    </div>
+    <div class="chart-card">
+      <div class="chart-header">
+        <h2>④ Feature Importance</h2>
+        <span class="chart-hint">Random Forest Regressor drivers</span>
+      </div>
+      <canvas id="featureChart"></canvas>
+    </div>
+    <div class="chart-card">
+      <div class="chart-header">
+        <h2>⑤ Anomaly Detection</h2>
+        <span class="chart-hint">Isolation Forest · Health + anomaly overlay</span>
+      </div>
+      <canvas id="anomalyChart"></canvas>
+    </div>
+  </section>
+
+  <!-- Department Cards + Diagnostics -->
+  <section class="charts-row">
+    <div class="chart-card">
+      <div class="chart-header">
+        <h2>⑥ Department Status</h2>
+        <span class="chart-hint">Current operational workload</span>
+      </div>
+      <div id="deptCards" class="dept-grid"></div>
+    </div>
+    <div class="chart-card wide">
+      <div class="chart-header">
+        <h2>⑦ Diagnostic Findings</h2>
+        <span class="chart-hint">Top operational stressors · Recommended actions</span>
+      </div>
+      <div id="diagnosticsPanel" class="diagnostics-panel"></div>
+    </div>
+  </section>
+
+  <!-- ML Model Info -->
+  <section class="model-info-row">
+    <div class="model-badge">
+      <span class="badge-icon">🌲</span>
+      <div><strong>Random Forest Regressor</strong><br/>250 trees · depth 14 · Health Score Estimation</div>
+    </div>
+    <div class="model-badge">
+      <span class="badge-icon">🌿</span>
+      <div><strong>Random Forest Classifier</strong><br/>250 trees · depth 12 · 4-Horizon Risk Prediction</div>
+    </div>
+    <div class="model-badge">
+      <span class="badge-icon">🔍</span>
+      <div><strong>Isolation Forest</strong><br/>200 trees · contamination 6% · Anomaly Detection</div>
+    </div>
+    <div class="model-badge">
+      <span class="badge-icon">📊</span>
+      <div><strong>Feature Engineering</strong><br/>7-obs rolling avg · trends · interactions</div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Footer -->
+<footer class="footer">
+  <p>SilentCare AI · Department of AIML · Charan V · Aswin Kumar K · Someshwar J · Academic Year 2026–2027</p>
+  <p style="font-size:0.75rem;opacity:0.6;">Synthetic data only — no real patient records used</p>
+</footer>
+
+<script src="/static/js/dashboard.js"></script>
+</body>
+</html>
